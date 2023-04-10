@@ -23,6 +23,14 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    signingConfigs {
+        release {
+            storeFile file("my-release-key.keystore")
+            storePassword "123456"
+            keyAlias "alias_name"
+            keyPassword "123456"
+        }
+    }
 }
 
 dependencies {
