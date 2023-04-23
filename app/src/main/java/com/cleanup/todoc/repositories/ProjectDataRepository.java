@@ -1,14 +1,23 @@
 package com.cleanup.todoc.repositories;
 
-import androidx.lifecycle.LiveData;
-
 import com.cleanup.todoc.database.dao.ProjectDao;
-import com.cleanup.todoc.model.Project;
 
+/**
+ * <p>Repository for project.</p>
+ *
+ * @author Benjamin PALLO
+ */
 public class ProjectDataRepository {
 
+    /**
+     * The repository use ProjectDao to separate data persistence logic from application business logic
+     */
     private final ProjectDao projectDao;
 
+    /**
+     * Constructor of Repository (Project)
+     * @param projectDao
+     */
     public ProjectDataRepository(ProjectDao projectDao) { this.projectDao = projectDao; }
 
 }

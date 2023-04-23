@@ -1,9 +1,6 @@
 package com.cleanup.todoc.ui;
 
-import static com.cleanup.todoc.model.Project.getProjectById;
-
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,21 +13,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.database.SaveMyTaskDatabase;
-import com.cleanup.todoc.database.dao.ProjectDao;
-import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.injections.ViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -62,12 +52,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all current tasks of the application
      */
     @NonNull
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    public final ArrayList<Task> tasks = new ArrayList<>();
 
     /**
      * The adapter which handles the list of tasks
      */
-    private final TasksAdapter adapter = new TasksAdapter(tasks, this);
+    public final TasksAdapter adapter = new TasksAdapter(tasks, this);
 
     /**
      * The sort method to be used to display tasks
@@ -186,13 +176,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             if (taskName.trim().isEmpty()) {
                 dialogEditText.setError(getString(R.string.empty_task_name));
             }
-            // If both project and name of the task have been set
-            else if (taskProject != null) {
-                // TODO: Replace this by id of persisted task
-                long id = (long) (Math.random() * 50000);
 
-                Task task = new Task(
-                        id,
+            assert taskProject != null;
+            Task task = new Task(
                         taskProject.getId(),
                         taskName,
                         new Date().getTime()
@@ -207,11 +193,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 dialogInterface.dismiss();
             }
         }
-        // If dialog is aloready closed
-        else {
-            dialogInterface.dismiss();
-        }
-    }
 
     /**
      * Shows the Dialog for adding a Task
@@ -237,15 +218,15 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         updateTasks();
     }
 
+    /**
+     * Updates the list of tasks in the database
+     */
     private void updateTasksBdd() {
         taskViewModel.getTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasksFromDB) {
-                // Effacer les tâches précédentes et ajouter les tâches de la base de données
                 tasks.clear();
                 tasks.addAll(tasksFromDB);
-
-                // Mettre à jour l'affichage de la liste des tâches
                 updateTasks();
             }
         });

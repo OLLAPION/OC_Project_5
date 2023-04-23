@@ -12,6 +12,11 @@ import com.cleanup.todoc.repositories.TaskDataRepository;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+/**
+ * <p>ViewModel for Task, without ??? complet car je ne voulais pas toucher la main Activity.</p>
+ *
+ * @author Benjamin PALLO
+ */
 public class TaskViewModel extends ViewModel {
 
     // REPOSITORIES
@@ -39,13 +44,6 @@ public class TaskViewModel extends ViewModel {
     // -------------
     public LiveData<List<Task>> getTasks() {
         return taskDataSource.getTasks();
-    }
-
-    public void createTask(long id, long projectId, String name, long creationTimestamp) {
-        executor.execute(() -> {
-            taskDataSource.createTask(new Task(id, projectId, name, creationTimestamp));
-        });
-
     }
 
     public void deleteTask(Task taskId) {

@@ -7,10 +7,22 @@ import com.cleanup.todoc.model.Task;
 
 import java.util.List;
 
+/**
+ * <p>Repository for Task.</p>
+ *
+ * @author Benjamin PALLO
+ */
 public class TaskDataRepository {
 
+        /**
+         * The repository use TaskDao to separate data persistence logic from application business logic
+         */
         private final TaskDao taskDao;
 
+        /**
+         * Constructor of Repository (Project)
+         * @param taskDao
+         */
         public TaskDataRepository(TaskDao taskDao) { this.taskDao = taskDao; }
 
         // --- GET ---

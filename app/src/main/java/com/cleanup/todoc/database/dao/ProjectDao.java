@@ -1,6 +1,5 @@
 package com.cleanup.todoc.database.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,6 +11,11 @@ import com.cleanup.todoc.model.Project;
 
 import java.util.List;
 
+/**
+ * <p>Dao for project.</p>
+ *
+ * @author Benjamin PALLO
+ */
 @Dao
 public interface ProjectDao {
 
@@ -20,6 +24,9 @@ public interface ProjectDao {
 
     @Query("SELECT * FROM Project WHERE id = :id")
     Project getProjectById(long id);
+
+    @Query("SELECT * FROM Project WHERE id = :id")
+    List<Project> getById(long id);
 
     @Insert
     void insert(Project project);
