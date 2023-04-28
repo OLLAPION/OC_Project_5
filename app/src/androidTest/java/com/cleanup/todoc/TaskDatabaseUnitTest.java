@@ -102,14 +102,7 @@ public class TaskDatabaseUnitTest {
         Task taskToAdd = new Task(5L, "Tâche 1", 0);
         taskDao.insert(taskToAdd);
 
-        // Afficher les tâches avant la suppression
         List<Task> taskListBeforeDelete = taskDao.getTasksList();
-        for (Task task : taskListBeforeDelete) {
-            Log.d("TAG", "task before delete: " + task.toString());
-        }
-
-        // Ajouter un log pour vérifier si la suppression a été effectuée correctement
-        Log.d("TAG", "task deleted successfully: " + taskToAdd.toString());
 
         boolean taskFound = false;
 
@@ -117,32 +110,21 @@ public class TaskDatabaseUnitTest {
             if (taskToDelete.getProjectId() == taskToAdd.getProjectId() &&
                     taskToDelete.getName().equals(taskToAdd.getName()) &&
                     taskToDelete.getCreationTimestamp() == taskToAdd.getCreationTimestamp()) {
-                taskDao.delete(taskToDelete);
-                Log.d("TAG", "taskToDelete_id :" + taskToDelete.getId());
-                Log.d("TAG", "taskToAdd_id :" + taskToAdd.getId());
 
-                // Afficher les tâches après la suppression
+                taskDao.delete(taskToDelete);
+
                 List<Task> taskListAfterDelete = taskDao.getTasksList();
-                for (Task task : taskListAfterDelete) {
-                    Log.d("TAG", "task after delete: " + task.toString());
-                }
 
                 for (Task task : taskListAfterDelete) {
                     if (task.getProjectId() == taskToDelete.getProjectId() &&
                             task.getName().equals(taskToDelete.getName()) &&
                             task.getCreationTimestamp() == taskToDelete.getCreationTimestamp()) {
                         taskFound = true;
-                        Log.d("TAG", "taskToDelete_id :" + taskToDelete.getId());
-                        Log.d("TAG", "task_id :" + task.getId());
                         break;
                     }
                 }
             }
         }
-
-        // Ajouter un log juste avant l'assertion pour vérifier si la tâche a été supprimée avec succès ou non
-        Log.d("TAG", "task found after delete: " + taskFound);
-
         assertFalse(taskFound);
 
         projectDao.delete(project);
